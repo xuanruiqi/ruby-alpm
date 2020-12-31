@@ -6,3 +6,8 @@
 /pkg/
 /spec/reports/
 /tmp/
+
+*.o
+*.so
+
+/ext/alpm/Makefile
