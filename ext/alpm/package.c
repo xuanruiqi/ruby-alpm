@@ -153,7 +153,6 @@ static VALUE reason_raw(VALUE self)
 {
     AlpmPkg *ctx;
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-
     return INT2NUM(alpm_pkg_get_reason(ctx->pkg));
 }
 
@@ -172,10 +171,13 @@ static VALUE validation_raw(VALUE self)
 static VALUE licenses(VALUE self)
 {
     AlpmPkg *ctx;
+    alpm_list_t *licenses;
+    VALUE rb_licenses;
+    
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
     
-    alpm_list_t *licenses = alpm_pkg_get_licenses(ctx->pkg);
-    VALUE rb_licenses = alpm_list_to_rb_ary(licenses, (VALUE (*)(void *)) rb_str_new_cstr);
+    licenses = alpm_pkg_get_licenses(ctx->pkg);
+    rb_licenses = alpm_list_to_rb_ary(licenses, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(licenses);
 
     return rb_licenses;
@@ -185,10 +187,13 @@ static VALUE licenses(VALUE self)
 static VALUE groups(VALUE self)
 {
     AlpmPkg *ctx;
+    alpm_list_t *groups;
+    VALUE rb_groups;
+    
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
     
-    alpm_list_t *groups = alpm_pkg_get_groups(ctx->pkg);
-    VALUE rb_groups = alpm_list_to_rb_ary(groups, (VALUE (*)(void *)) rb_str_new_cstr);
+    groups = alpm_pkg_get_groups(ctx->pkg);
+    rb_groups = alpm_list_to_rb_ary(groups, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(groups);
 
     return rb_groups;
@@ -198,10 +203,13 @@ static VALUE groups(VALUE self)
 static VALUE depends(VALUE self)
 {
     AlpmPkg *ctx;
+    alpm_list_t *depends;
+    VALUE rb_depends;
+    
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
     
-    alpm_list_t *depends = alpm_pkg_get_depends(ctx->pkg);
-    VALUE rb_depends = alpm_list_to_rb_ary(depends, (VALUE (*)(void *)) rb_str_new_cstr);
+    depends = alpm_pkg_get_depends(ctx->pkg);
+    rb_depends = alpm_list_to_rb_ary(depends, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(depends);
 
     return rb_depends;
@@ -211,10 +219,13 @@ static VALUE depends(VALUE self)
 static VALUE optdepends(VALUE self)
 {
     AlpmPkg *ctx;
+    alpm_list_t *optdepends;
+    VALUE rb_optdepends;
+    
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
     
-    alpm_list_t *optdepends = alpm_pkg_get_optdepends(ctx->pkg);
-    VALUE rb_optdepends = alpm_list_to_rb_ary(optdepends, (VALUE (*)(void *)) rb_str_new_cstr);
+    optdepends = alpm_pkg_get_optdepends(ctx->pkg);
+    rb_optdepends = alpm_list_to_rb_ary(optdepends, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(optdepends);
 
     return rb_optdepends;
@@ -224,10 +235,13 @@ static VALUE optdepends(VALUE self)
 static VALUE checkdepends(VALUE self)
 {
     AlpmPkg *ctx;
+    alpm_list_t *checkdepends;
+    VALUE rb_checkdepends;
+    
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
     
-    alpm_list_t *checkdepends = alpm_pkg_get_checkdepends(ctx->pkg);
-    VALUE rb_checkdepends = alpm_list_to_rb_ary(checkdepends, (VALUE (*)(void *)) rb_str_new_cstr);
+    checkdepends = alpm_pkg_get_checkdepends(ctx->pkg);
+    rb_checkdepends = alpm_list_to_rb_ary(checkdepends, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(checkdepends);
 
     return rb_checkdepends;
@@ -237,10 +251,13 @@ static VALUE checkdepends(VALUE self)
 static VALUE makedepends(VALUE self)
 {
     AlpmPkg *ctx;
+    alpm_list_t *makedepends;
+    VALUE rb_makedepends;
+    
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
     
-    alpm_list_t *makedepends = alpm_pkg_get_makedepends(ctx->pkg);
-    VALUE rb_makedepends = alpm_list_to_rb_ary(makedepends, (VALUE (*)(void *)) rb_str_new_cstr);
+    makedepends = alpm_pkg_get_makedepends(ctx->pkg);
+    rb_makedepends = alpm_list_to_rb_ary(makedepends, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(makedepends);
 
     return rb_makedepends;
@@ -263,10 +280,13 @@ static VALUE conflicts(VALUE self)
 static VALUE provides(VALUE self)
 {
     AlpmPkg *ctx;
+    alpm_list_t *provides;
+    VALUE rb_provides;
+    
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
     
-    alpm_list_t *provides = alpm_pkg_get_provides(ctx->pkg);
-    VALUE rb_provides = alpm_list_to_rb_ary(provides, (VALUE (*)(void *)) rb_str_new_cstr);
+    provides = alpm_pkg_get_provides(ctx->pkg);
+     rb_provides = alpm_list_to_rb_ary(provides, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(provides);
 
     return rb_provides;
@@ -276,10 +296,13 @@ static VALUE provides(VALUE self)
 static VALUE replaces(VALUE self)
 {
     AlpmPkg *ctx;
+    alpm_list_t *replaces;
+    VALUE rb_replaces;
+    
     TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
     
-    alpm_list_t *replaces = alpm_pkg_get_replaces(ctx->pkg);
-    VALUE rb_replaces = alpm_list_to_rb_ary(replaces, (VALUE (*)(void *)) rb_str_new_cstr);
+    replaces = alpm_pkg_get_replaces(ctx->pkg);
+    rb_replaces = alpm_list_to_rb_ary(replaces, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(replaces);
 
     return rb_replaces;
