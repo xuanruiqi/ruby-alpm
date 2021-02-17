@@ -1,28 +1,11 @@
-# Alpm
+# ALPM bindings for Ruby
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/alpm`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is the `alpm` Gem, currently under development, which is a binding to the Arch Linux Package Management 
+([libalpm](https://git.archlinux.org/pacman.git/tree/lib/libalpm)) library.
 
-TODO: Delete this and the text above, and describe your gem
+## Installation/Usage
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'alpm'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install alpm
-
-## Usage
-
-TODO: Write usage instructions here
+Currently this is in an early development stage, so I make no guarantees that you can install or use it.
 
 ## Development
 
@@ -32,8 +15,12 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/alpm. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/alpm/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/xuanruiqi/ruby-alpm. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/xuanruiqi/ruby-alpm/blob/master/CODE_OF_CONDUCT.md).
 
 ## Code of Conduct
 
-Everyone interacting in the Alpm project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/alpm/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Alpm project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/xuanruiqi/ruby-alpm/blob/master/CODE_OF_CONDUCT.md).
+
+## License
+
+The code is open-source under the GNU General Public License v3.0.
