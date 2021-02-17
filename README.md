@@ -5,13 +5,15 @@ This is the `alpm` Gem, currently under development, which is a binding to the A
 
 ## Installation/Usage
 
-Currently this is in an early development stage, so I make no guarantees that you can install or use it.
+Currently this is in an early development stage, so I make no guarantees that you can install or use it. 
+But you can use `rake compile`, `rake build` and `bin/console` to play with it.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. You will need to use `rake compile` to compile the native extensions.
+You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Contributing
 
