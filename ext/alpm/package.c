@@ -308,7 +308,7 @@ static VALUE replaces(VALUE self)
     return rb_replaces;
 }
 
-/* Package::files_raw 
+/* Package::files_raw */
 static VALUE files_raw(VALUE self)
 {
     AlpmPkg *ctx;
@@ -316,21 +316,25 @@ static VALUE files_raw(VALUE self)
 
     alpm_filelist_t* filelist = alpm_pkg_get_files(ctx->pkg);
 
-    if (!files) {
-        return Qnil
+    if (!filelist) {
+        return Qnil;
     } else {
         size_t num_files = filelist->count;
         alpm_file_t *files = filelist->files;
-        VALUE rb_files = rb_ary_new((long) num_files);
+        VALUE rb_files = rb_ary_new2((long) num_files);
         
         for (size_t i = 0; i < num_files; ++i) {
-            
+            alpm_file_t file_info = files[i];
+            VALUE file_entry = rb_ary_new3(3, rb_str_new_cstr(file_info.name),
+                INT2NUM(file_info.size), INT2NUM(file_info.mode));
+            rb_ary_push(rb_files, file_entry);
         }
-    }
+        
+        return rb_files;
+    } 
 }
-*/
 
-void Init_alpm_package(void)
+void init_alpm_package(void)
 {
     VALUE cPackage = rb_define_class_under(mALPM, "Package", rb_cObject);
 
@@ -363,5 +367,7 @@ void Init_alpm_package(void)
     rb_define_method(cPackage, "conflicts", conflicts, 0);
     rb_define_method(cPackage, "provides", provides, 0);
     rb_define_method(cPackage, "replaces", replaces, 0);
+
+    rb_define_method(cPackage, "files_raw", files_raw, 0);
 }
 

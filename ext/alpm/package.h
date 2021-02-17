@@ -11,6 +11,6 @@ typedef struct _AlpmPkg {
     alpm_pkg_t *pkg;
 } AlpmPkg;
 
-void Init_alpm_package(void);
+void init_alpm_package(void);
 
 #endif
