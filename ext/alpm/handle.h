@@ -7,11 +7,6 @@
 
 #include "util.h"
 
-struct _AlpmHandle {
-    alpm_handle_t *handle;
-};
-typedef struct _AlpmHandle AlpmHandle;
-
-void Init_alpm_handle(void);
+void init_alpm_handle(void);
 
 #endif
