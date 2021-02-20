@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Ruby bindings for libalpm, the Arch Linux Package Management library'
   spec.homepage      = 'https://github.com/xuanruiqi/ruby-alpm'
+  spec.licenses      = ['GPL-3.0-or-later']
   spec.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
@@ -21,18 +22,13 @@ Gem::Specification.new do |spec|
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{\A(?:test|spec|features)/}) }
   end
-  spec.bindir        = 'exe'
-  spec.executables   = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+
   spec.require_paths = ['lib']
 
   spec.extensions = %w[ext/alpm/extconf.rb]
 
-  # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "example-gem", "~> 1.0"
+  # Dependencies
   spec.add_dependency 'rake', '~> 13.0'
   spec.add_dependency 'rake-compiler', '~> 1.0.1'
   spec.add_development_dependency 'pry'
-
-  # For more information and examples about making a new gem, checkout our
-  # guide at: https://bundler.io/guides/creating_gem.html
 end

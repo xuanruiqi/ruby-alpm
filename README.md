@@ -25,4 +25,4 @@ Everyone interacting in the Alpm project's codebases, issue trackers, chat rooms
 
 ## License
 
-The code is open-source under the GNU General Public License v3.0.
+The code is open-sourced under the GNU General Public License v3.0.
