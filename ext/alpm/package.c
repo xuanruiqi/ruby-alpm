@@ -9,7 +9,7 @@
 
 static void package_free(void *ctx)
 {
-    alpm_pkg_t *pkg = ((AlpmPkg*) ctx)->pkg;
+    alpm_pkg_t *pkg = *((alpm_pkg_t**) ctx);
     int res;
     
     if (pkg) {
@@ -22,11 +22,10 @@ static void package_free(void *ctx)
 
 static size_t package_size(const void *ctx)
 {
-    (void) ctx;
-    return sizeof(AlpmPkg);
+    return sizeof(*((alpm_pkg_t**) ctx));
 }
 
-static const rb_data_type_t AlpmPkg_type = {
+const rb_data_type_t AlpmPkg_type = {
     .wrap_struct_name = "ALPM::Package",
     .function = {
         .dmark = NULL,
@@ -39,48 +38,48 @@ static const rb_data_type_t AlpmPkg_type = {
 
 static VALUE package_allocate(VALUE self)
 {
-    AlpmPkg *ctx;
-    return TypedData_Make_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    alpm_pkg_t **ctx;
+    return TypedData_Make_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
 }
 
 /* Package::filename : String */
 static VALUE filename(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return rb_str_new_cstr(alpm_pkg_get_filename(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return rb_str_new_cstr(alpm_pkg_get_filename(*ctx));
 }
 
 /* Package::base : String */
 static VALUE base(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return rb_str_new_cstr(alpm_pkg_get_base(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return rb_str_new_cstr(alpm_pkg_get_base(*ctx));
 }
 
 /* Package::version : String */
 static VALUE version(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return rb_str_new_cstr(alpm_pkg_get_version(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return rb_str_new_cstr(alpm_pkg_get_version(*ctx));
 }
 
 /* Package::desc : String */
 static VALUE description(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return rb_str_new_cstr(alpm_pkg_get_desc(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return rb_str_new_cstr(alpm_pkg_get_desc(*ctx));
 }
 
 /* Package::url : String */
 static VALUE url(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return rb_str_new_cstr(alpm_pkg_get_url(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return rb_str_new_cstr(alpm_pkg_get_url(*ctx));
 }
 
 /* Package::build_date_ts : Number
@@ -89,9 +88,9 @@ static VALUE url(VALUE self)
  */
 static VALUE build_date_ts(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return INT2NUM(alpm_pkg_get_builddate(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return INT2NUM(alpm_pkg_get_builddate(*ctx));
 }
 
 /* Package::install_date_ts : Number
@@ -100,49 +99,49 @@ static VALUE build_date_ts(VALUE self)
  */
 static VALUE install_date_ts(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return INT2NUM(alpm_pkg_get_installdate(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return INT2NUM(alpm_pkg_get_installdate(*ctx));
 }
 
 /* Package::packager : String */
 static VALUE packager(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return rb_str_new_cstr(alpm_pkg_get_packager(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return rb_str_new_cstr(alpm_pkg_get_packager(*ctx));
 }
 
 /* Package::md5sum : String */
 static VALUE md5sum(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return rb_str_new_cstr(alpm_pkg_get_md5sum(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return rb_str_new_cstr(alpm_pkg_get_md5sum(*ctx));
 }
 
 /* Package::sha256sum : String */
 static VALUE sha256sum(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return rb_str_new_cstr(alpm_pkg_get_sha256sum(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return rb_str_new_cstr(alpm_pkg_get_sha256sum(*ctx));
 }
 
 /* Package::size : Number */
 static VALUE pkgsize(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return INT2NUM(alpm_pkg_get_size(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return INT2NUM(alpm_pkg_get_size(*ctx));
 }
 
 /* Package::isize : Number */
 static VALUE installed_size(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return INT2NUM(alpm_pkg_get_isize(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return INT2NUM(alpm_pkg_get_isize(*ctx));
 }
 
 /* Package::reason_raw : Number
@@ -151,9 +150,9 @@ static VALUE installed_size(VALUE self)
  */
 static VALUE reason_raw(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return INT2NUM(alpm_pkg_get_reason(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return INT2NUM(alpm_pkg_get_reason(*ctx));
 }
 
 /* Package::validation_raw : Number
@@ -162,21 +161,21 @@ static VALUE reason_raw(VALUE self)
  */
 static VALUE validation_raw(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
-    return INT2NUM(alpm_pkg_get_validation(ctx->pkg));
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
+    return INT2NUM(alpm_pkg_get_validation(*ctx));
 }
 
 /* Package::licenses : Array[String] */
 static VALUE licenses(VALUE self)
 {
-    AlpmPkg *ctx;
+    alpm_pkg_t **ctx;
     alpm_list_t *licenses;
     VALUE rb_licenses;
     
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    licenses = alpm_pkg_get_licenses(ctx->pkg);
+    licenses = alpm_pkg_get_licenses(*ctx);
     rb_licenses = alpm_list_to_rb_ary(licenses, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(licenses);
 
@@ -186,13 +185,13 @@ static VALUE licenses(VALUE self)
 /* Package::groups : Array[String] */
 static VALUE groups(VALUE self)
 {
-    AlpmPkg *ctx;
+    alpm_pkg_t **ctx;
     alpm_list_t *groups;
     VALUE rb_groups;
     
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    groups = alpm_pkg_get_groups(ctx->pkg);
+    groups = alpm_pkg_get_groups(*ctx);
     rb_groups = alpm_list_to_rb_ary(groups, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(groups);
 
@@ -202,13 +201,13 @@ static VALUE groups(VALUE self)
 /* Package::depends : Array[String] */
 static VALUE depends(VALUE self)
 {
-    AlpmPkg *ctx;
+    alpm_pkg_t **ctx;
     alpm_list_t *depends;
     VALUE rb_depends;
     
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    depends = alpm_pkg_get_depends(ctx->pkg);
+    depends = alpm_pkg_get_depends(*ctx);
     rb_depends = alpm_list_to_rb_ary(depends, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(depends);
 
@@ -218,13 +217,13 @@ static VALUE depends(VALUE self)
 /* Package::optdepends : Array[String] */
 static VALUE optdepends(VALUE self)
 {
-    AlpmPkg *ctx;
+    alpm_pkg_t **ctx;
     alpm_list_t *optdepends;
     VALUE rb_optdepends;
     
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    optdepends = alpm_pkg_get_optdepends(ctx->pkg);
+    optdepends = alpm_pkg_get_optdepends(*ctx);
     rb_optdepends = alpm_list_to_rb_ary(optdepends, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(optdepends);
 
@@ -234,13 +233,13 @@ static VALUE optdepends(VALUE self)
 /* Package::checkupdates : Array[String] */
 static VALUE checkdepends(VALUE self)
 {
-    AlpmPkg *ctx;
+    alpm_pkg_t **ctx;
     alpm_list_t *checkdepends;
     VALUE rb_checkdepends;
     
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    checkdepends = alpm_pkg_get_checkdepends(ctx->pkg);
+    checkdepends = alpm_pkg_get_checkdepends(*ctx);
     rb_checkdepends = alpm_list_to_rb_ary(checkdepends, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(checkdepends);
 
@@ -250,13 +249,13 @@ static VALUE checkdepends(VALUE self)
 /* Package::makedepends : Array[String] */
 static VALUE makedepends(VALUE self)
 {
-    AlpmPkg *ctx;
+    alpm_pkg_t **ctx;
     alpm_list_t *makedepends;
     VALUE rb_makedepends;
     
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    makedepends = alpm_pkg_get_makedepends(ctx->pkg);
+    makedepends = alpm_pkg_get_makedepends(*ctx);
     rb_makedepends = alpm_list_to_rb_ary(makedepends, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(makedepends);
 
@@ -266,10 +265,10 @@ static VALUE makedepends(VALUE self)
 /* Package::conflicts : Array[String] */
 static VALUE conflicts(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    alpm_list_t *conflicts = alpm_pkg_get_conflicts(ctx->pkg);
+    alpm_list_t *conflicts = alpm_pkg_get_conflicts(*ctx);
     VALUE rb_conflicts = alpm_list_to_rb_ary(conflicts, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(conflicts);
 
@@ -279,13 +278,13 @@ static VALUE conflicts(VALUE self)
 /* Package::provides : Array[String] */
 static VALUE provides(VALUE self)
 {
-    AlpmPkg *ctx;
+    alpm_pkg_t **ctx;
     alpm_list_t *provides;
     VALUE rb_provides;
     
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    provides = alpm_pkg_get_provides(ctx->pkg);
+    provides = alpm_pkg_get_provides(*ctx);
      rb_provides = alpm_list_to_rb_ary(provides, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(provides);
 
@@ -295,13 +294,13 @@ static VALUE provides(VALUE self)
 /* Package::replaces : Array[String] */
 static VALUE replaces(VALUE self)
 {
-    AlpmPkg *ctx;
+    alpm_pkg_t **ctx;
     alpm_list_t *replaces;
     VALUE rb_replaces;
     
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
-    replaces = alpm_pkg_get_replaces(ctx->pkg);
+    replaces = alpm_pkg_get_replaces(*ctx);
     rb_replaces = alpm_list_to_rb_ary(replaces, (VALUE (*)(void *)) rb_str_new_cstr);
     FREELIST(replaces);
 
@@ -311,10 +310,10 @@ static VALUE replaces(VALUE self)
 /* Package::files_raw */
 static VALUE files_raw(VALUE self)
 {
-    AlpmPkg *ctx;
-    TypedData_Get_Struct(self, AlpmPkg, &AlpmPkg_type, ctx);
+    alpm_pkg_t **ctx;
+    TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
 
-    alpm_filelist_t* filelist = alpm_pkg_get_files(ctx->pkg);
+    alpm_filelist_t* filelist = alpm_pkg_get_files(*ctx);
 
     if (!filelist) {
         return Qnil;
@@ -334,9 +333,11 @@ static VALUE files_raw(VALUE self)
     } 
 }
 
+VALUE cPackage;
+
 void init_alpm_package(void)
 {
-    VALUE cPackage = rb_define_class_under(mALPM, "Package", rb_cObject);
+    cPackage = rb_define_class_under(mALPM, "Package", rb_cObject);
 
     rb_define_alloc_func(cPackage, package_allocate);
 

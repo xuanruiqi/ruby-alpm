@@ -7,9 +7,8 @@
 
 #include "util.h"
 
-typedef struct _AlpmPkg {
-    alpm_pkg_t *pkg;
-} AlpmPkg;
+extern const rb_data_type_t AlpmPkg_type;
+extern VALUE cPackage;
 
 void init_alpm_package(void);
 

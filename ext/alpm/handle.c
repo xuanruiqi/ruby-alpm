@@ -5,6 +5,7 @@
 #include "alpm_ruby.h"
 #include "util.h"
 #include "handle.h"
+#include "package.h"
 
 /* ctx is a double-pointer to alpm_handle_t */
 static void handle_free(void *ctx)
@@ -44,12 +45,12 @@ static VALUE handle_allocate(VALUE self)
     return TypedData_Make_Struct(self, alpm_handle_t*, &AlpmHandle_type, ctx);
 }
 
+/* Handle::new(root, dbpath) */
 static VALUE handle_c_initialize(VALUE self, VALUE root, VALUE dbpath)
 {
     alpm_handle_t **ctx;
     char *root_c, *dbpath_c;
     alpm_errno_t err;
-    const char *err_str;
 
     TypedData_Get_Struct(self, alpm_handle_t*, &AlpmHandle_type, ctx);
     
@@ -61,13 +62,46 @@ static VALUE handle_c_initialize(VALUE self, VALUE root, VALUE dbpath)
 
     *ctx = alpm_initialize(root_c, dbpath_c, &err);
     if (err != 0) {
-        err_str = alpm_strerror(err);
-        rb_raise(rb_eRuntimeError, "Failed to initialize ALPM handle with error: %s, error code %d", err_str, err);
+        rb_raise(rb_eRuntimeError, "Failed to initialize ALPM handle with error: %s, error code %d", alpm_strerror(err), err);
         return Qnil;
     }
 
     return self;
 }
+
+/* Handle::load_package(filename, sig_level = 1) */
+VALUE package_load(int argc, VALUE *argv, VALUE self)
+{
+    alpm_handle_t **ctx;
+    VALUE filename, sig_level, pkg_rb;
+    alpm_pkg_t *pkg;
+    alpm_pkg_t **pkg_ctx;
+    char *filename_c;
+    int sig_level_c, load_result;
+
+    rb_scan_args(argc, argv, "11", &filename, &sig_level);
+    
+    if (!NIL_P(sig_level)) {
+        sig_level_c = FIX2INT(sig_level);
+    } else {
+        sig_level_c = 1;
+    }
+    
+    filename_c = StringValueCStr(filename);
+
+    TypedData_Get_Struct(self, alpm_handle_t*, &AlpmHandle_type, ctx);
+
+    load_result = alpm_pkg_load(*ctx, filename_c, 1, sig_level_c, &pkg);
+
+    if (load_result == -1 || !pkg) {
+        rb_raise(rb_eRuntimeError, "Failed to create package with error: %s", alpm_strerror(alpm_errno(*ctx)));
+        return Qnil;
+    }
+
+    pkg_ctx = &pkg;
+    pkg_rb = TypedData_Make_Struct(cPackage, alpm_pkg_t*, &AlpmPkg_type, pkg_ctx);
+    return pkg_rb;
+} 
 
 void init_alpm_handle(void)
 {
