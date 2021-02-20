@@ -5,6 +5,7 @@
 
 #include "alpm_ruby.h"
 #include "util.h"
+#include "dependency.h"
 #include "package.h"
 
 static void package_free(void *ctx)
@@ -192,13 +193,13 @@ static VALUE groups(VALUE self)
     TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
     groups = alpm_pkg_get_groups(*ctx);
-    rb_groups = alpm_list_to_rb_ary(groups, (VALUE (*)(void *)) rb_str_new_cstr);
+    rb_groups = alpm_list_to_rb_ary(groups, (VALUE (*)(void *)) dependency_make);
     FREELIST(groups);
 
     return rb_groups;
 }
 
-/* Package::depends : Array[String] */
+/* Package.depends : Array[Dependency] */
 static VALUE depends(VALUE self)
 {
     alpm_pkg_t **ctx;
@@ -208,13 +209,13 @@ static VALUE depends(VALUE self)
     TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
     depends = alpm_pkg_get_depends(*ctx);
-    rb_depends = alpm_list_to_rb_ary(depends, (VALUE (*)(void *)) rb_str_new_cstr);
+    rb_depends = alpm_list_to_rb_ary(depends, (VALUE (*)(void *)) dependency_make);
     FREELIST(depends);
 
     return rb_depends;
 }
 
-/* Package::optdepends : Array[String] */
+/* Package.optdepends : Array[Dependency] */
 static VALUE optdepends(VALUE self)
 {
     alpm_pkg_t **ctx;
@@ -224,13 +225,13 @@ static VALUE optdepends(VALUE self)
     TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
     optdepends = alpm_pkg_get_optdepends(*ctx);
-    rb_optdepends = alpm_list_to_rb_ary(optdepends, (VALUE (*)(void *)) rb_str_new_cstr);
+    rb_optdepends = alpm_list_to_rb_ary(optdepends, (VALUE (*)(void *)) dependency_make);
     FREELIST(optdepends);
 
     return rb_optdepends;
 }
 
-/* Package::checkupdates : Array[String] */
+/* Package.checkupdates : Array[Dependency] */
 static VALUE checkdepends(VALUE self)
 {
     alpm_pkg_t **ctx;
@@ -240,13 +241,13 @@ static VALUE checkdepends(VALUE self)
     TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
     checkdepends = alpm_pkg_get_checkdepends(*ctx);
-    rb_checkdepends = alpm_list_to_rb_ary(checkdepends, (VALUE (*)(void *)) rb_str_new_cstr);
+    rb_checkdepends = alpm_list_to_rb_ary(checkdepends, (VALUE (*)(void *)) dependency_make);
     FREELIST(checkdepends);
 
     return rb_checkdepends;
 }
 
-/* Package::makedepends : Array[String] */
+/* Package.makedepends : Array[Dependency] */
 static VALUE makedepends(VALUE self)
 {
     alpm_pkg_t **ctx;
@@ -256,26 +257,26 @@ static VALUE makedepends(VALUE self)
     TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
     makedepends = alpm_pkg_get_makedepends(*ctx);
-    rb_makedepends = alpm_list_to_rb_ary(makedepends, (VALUE (*)(void *)) rb_str_new_cstr);
+    rb_makedepends = alpm_list_to_rb_ary(makedepends, (VALUE (*)(void *)) dependency_make);
     FREELIST(makedepends);
 
     return rb_makedepends;
 }
 
-/* Package::conflicts : Array[String] */
+/* Package.conflicts : Array[Dependency] */
 static VALUE conflicts(VALUE self)
 {
     alpm_pkg_t **ctx;
     TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
     alpm_list_t *conflicts = alpm_pkg_get_conflicts(*ctx);
-    VALUE rb_conflicts = alpm_list_to_rb_ary(conflicts, (VALUE (*)(void *)) rb_str_new_cstr);
+    VALUE rb_conflicts = alpm_list_to_rb_ary(conflicts, (VALUE (*)(void *)) dependency_make);
     FREELIST(conflicts);
 
     return rb_conflicts;
 }
 
-/* Package::provides : Array[String] */
+/* Package.provides : Array[Dependency] */
 static VALUE provides(VALUE self)
 {
     alpm_pkg_t **ctx;
@@ -285,13 +286,13 @@ static VALUE provides(VALUE self)
     TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
     provides = alpm_pkg_get_provides(*ctx);
-     rb_provides = alpm_list_to_rb_ary(provides, (VALUE (*)(void *)) rb_str_new_cstr);
+     rb_provides = alpm_list_to_rb_ary(provides, (VALUE (*)(void *)) dependency_make);
     FREELIST(provides);
 
     return rb_provides;
 }
 
-/* Package::replaces : Array[String] */
+/* Package.replaces : Array[Dependency] */
 static VALUE replaces(VALUE self)
 {
     alpm_pkg_t **ctx;
@@ -301,13 +302,13 @@ static VALUE replaces(VALUE self)
     TypedData_Get_Struct(self, alpm_pkg_t*, &AlpmPkg_type, ctx);
     
     replaces = alpm_pkg_get_replaces(*ctx);
-    rb_replaces = alpm_list_to_rb_ary(replaces, (VALUE (*)(void *)) rb_str_new_cstr);
+    rb_replaces = alpm_list_to_rb_ary(replaces, (VALUE (*)(void *)) dependency_make);
     FREELIST(replaces);
 
     return rb_replaces;
 }
 
-/* Package::files_raw */
+/* Package.files_raw: Array[[String, Num, Num]] */
 static VALUE files_raw(VALUE self)
 {
     alpm_pkg_t **ctx;
