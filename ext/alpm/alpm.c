@@ -3,6 +3,7 @@
 #include <alpm.h>
 
 #include "alpm_ruby.h"
+#include "dependency.h"
 #include "package.h"
 #include "handle.h"
 
@@ -21,6 +22,7 @@ void Init_alpm(void)
     mALPM = rb_define_module("ALPM");    
     rb_define_singleton_method(mALPM, "libalpm_version", libalpm_version, 0);
 
+    init_alpm_dependency();
     init_alpm_package();
     init_alpm_handle();
 }
